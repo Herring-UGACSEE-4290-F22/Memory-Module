@@ -2,18 +2,21 @@
 Memory-Module for Class SingleCycleComputer (SCC)
 
 TODO:
+Get the basic structure down
+Then work can begin on module and testbench simult.
 
 INPUTS:
 clk
 address
-data_in or Din
+data_in or Din?
 CS, WE, OE //chip-select, write-enable, output enable
 
-
 OUTPUTS:
-data_out or Dout
+data_out or Dout?
 
 */
+
+//feel free to change variable names
 
 //layout taken from...
 //Book Appendix A: A.9 Memory Elements, page A-57
@@ -22,8 +25,9 @@ data_out or Dout
 parameter address_size = ; //this holds the address bus size (how large a space do we need to address in one chip?) 31?
 parameter data_size = ; //this holds the data bus size (32bits one whole instruction?) 31?
 
-//how many chips we need
+//this holds how many chips we need...this might be called by a higher up module of chip modules...depending on our addressing width and how much memory is needed for the ASM code to run.
 parameter memory_elements = ; //this will be used to create an array of "memory chips"
+
 
 module ChipRAM (
     clk,
