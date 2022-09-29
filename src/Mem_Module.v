@@ -19,7 +19,7 @@ module Mem_Module (
     i_mem_en,           //instruction control
 
     d_mem_a,            //data mem addressing
-    d_mem_out_v, d_mem_in_v //data mem IO busses
+    d_mem_out_v, d_mem_in_v, //data mem IO busses
     d_mem_write, d_mem_read //data mem control
 );
 
@@ -34,24 +34,24 @@ parameter INSTRUCTION_SIZE = 31; //instruction bit depth
 parameter DATA_ADDRESS_SIZE = 31; //fixed by ISA
 parameter DATA_SIZE = 31; //data bit-depth
 
-	input clk,
-	input rst,
+	input clk;
+	//input rst,
 
     //to read Instructions
-	input       [31:0] i_mem_a,         // Instruction memory address
-    output reg  [31:0] i_mem_v,         // Instruction memory value
-    input       i_mem_en,               // Instruction memory read enable
+	input       [31:0] i_mem_a;         // Instruction memory address
+    output reg  [31:0] i_mem_v;         // Instruction memory value
+    input       i_mem_en;               // Instruction memory read enable
 
     //adressing data
-    input   [31:0] d_mem_a,             // Data memory address
+    input   [31:0] d_mem_a;             // Data memory address
     
     //to read Data
-    input   d_mem_read,                 //indicate data read
-    output reg  [31:0] d_mem_out_v,     // Data memory write value
+    input   d_mem_read;                 //indicate data read
+    output reg  [31:0] d_mem_out_v;     // Data memory write value
  
     //to write Data
-	input   d_mem_write,                // indicate data write
-    input   d_mem_in_v,                 // data memory write value
+	input   d_mem_write;                // indicate data write
+    input   d_mem_in_v;                 // data memory write value
 
     
 endmodule
