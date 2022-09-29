@@ -3,43 +3,24 @@ Memory-Module for Class SingleCycleComputer (SCC)
 
 TODO:
 - Get the basic structure down
-    - Do we need/want a mem_module and a ramchip_module??
-        this would allow the SSC to access only one controller
-        and the controller would direct individual memory chips
-    - or we just bash all the memory into this module
-
+- Do we want to break this up into two modules still?
+    
 - once this module IO is complete, work can begin on 
-    other modules and testbenchi simult.
+    other modules (if needed) and testbenchi simult.
 
----TENATIVE IO---
-CORE NEEDS TO SEE:
-INPUTS:
-clk
-?? rst
-address
-data_in or Din?
-WE or RW // write-enable //ReadWrite
-input_valid //toggled when data to read is to be clocked into the module
-
-OUTPUTS:
-data_out or Dout?
-busy //data is not ready to be read or written...still waiting for chip op
-?? valid //to toggle when data on output is valid (a simple mem_mod could get away with just edge_clocking on the busy?)
-
-Others (for chips?)
-CS //Chip Select
-OE // output enable
-etc
+feel free to change variable names
 */
-
-//feel free to change variable names
-
 module Mem_Module (
     clk,
-    address,
-    CS, WE, OE,
-    data_in,
-    data_out
+    //do we need a reset??? To be taken in from a global wire (not passed from the cpu core) ie "nreset" ???
+
+    i_mem_a,            //instruction mem addressing
+    i_mem_v,            //instruction mem (read only)
+    i_mem_en,           //instruction control
+
+    d_mem_a,            //data mem addressing
+    d_mem_out_v, d_mem_in_v //data mem IO busses
+    d_mem_write, d_mem_read //data mem control
 );
 
 
@@ -47,24 +28,30 @@ module Mem_Module (
 "Instruction and Address Width
 	Like ARMv8, instructions have a fixed width of 32-bits, and the addressing space in memory is 32-bits."
 */
-parameter address_size = 31; //fixed by ISA
+parameter INSTRUCTION_ADDRESS_SIZE = 31; //fixed by ISA
+parameter INSTRUCTION_SIZE = 31; //instruction bit depth
 
-parameter data_size = 63; //this is the "bit-depth"
-//CLASS ISA states memory OPs store a 32bit OR 64bit, like ARMv8
+parameter DATA_ADDRESS_SIZE = 31; //fixed by ISA
+parameter DATA_SIZE = 31; //data bit-depth
 
-parameter memory_elements = 10; //this will be used to create an array of "memory chips" ???
-//if we want we can make it all in one module bc we know how much memory we need (or is supported by the ISA)
-//...however, we could make a chip_module anyway and itterate them using generate and a for loop *makes for cooler and cleaner code* *and a headache if it doesn't work* ;D
+	input clk,
+	input rst,
 
+    //to read Instructions
+	input       [31:0] i_mem_a,         // Instruction memory address
+    output reg  [31:0] i_mem_v,         // Instruction memory value
+    input       i_mem_en,               // Instruction memory read enable
 
-
-input clk;
-input CS, WE, OE;
-
-input [address_size:0] address;
-input [data_size:0] data_in;
-
-output reg [data_size:0] data_out;
+    //adressing data
+    input   [31:0] d_mem_a,             // Data memory address
+    
+    //to read Data
+    input   d_mem_read,                 //indicate data read
+    output reg  [31:0] d_mem_out_v,     // Data memory write value
+ 
+    //to write Data
+	input   d_mem_write,                // indicate data write
+    input   d_mem_in_v,                 // data memory write value
 
     
 endmodule
