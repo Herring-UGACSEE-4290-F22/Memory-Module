@@ -5,6 +5,10 @@ module In_mem(
 );     
     reg [31:0] memory[0:255];
 
+    initial begin
+        $readmemh("FILENAME.mem", memory);
+    end
+
     always @(posedge clk) begin
         data_a <= memory[address];
     end
