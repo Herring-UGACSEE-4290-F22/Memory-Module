@@ -1,5 +1,6 @@
 module In_mem(
     input clk,
+    input e,
     input [31:0] address,
     output reg [31:0] instr_out
 );     
@@ -13,7 +14,8 @@ module In_mem(
 
     // Fetch instruction at in address and put it into instr_out
     always @(posedge clk) begin
-        instr_out <= in_memory[address];
+        if(e)
+            instr_out <= in_memory[address];
     end
 
 endmodule
