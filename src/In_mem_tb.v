@@ -1,10 +1,9 @@
 //Testbench for Instruction memory
 /*
 This module calls In_mem.v
-In_mem should load a file into memory
-this module will then emulate a PC
-    to dump the contents into a log or file or waveform
-    */
+In_mem should load the file "instructions.mem" into memory
+this module will then emulate a PC to dump the instruction contents into a waveform
+*/
 
 `timescale 10ms/1ms
 
