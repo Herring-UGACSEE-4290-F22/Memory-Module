@@ -1,8 +1,11 @@
+
+
 module Data_mem(
     input clk,
     input [31:0] data_address,
     input [31:0] data_in,
-    input we,
+    input we, //write_enable
+    input re, //read_enable
     output reg [31:0] data_out
 );
 
@@ -18,9 +21,10 @@ end
 
 // read/write synchronous block
 always @(posedge clk) begin
-    if(we) 
-        data_memory[data_address] <= data_in;
-    data_out <= data_memory[data_address];
+    if(we==1'b1) begin
+        data_memory[data_address] <= data_in; end
+    if (re==1'b1) begin
+        data_out <= data_memory[data_address]; end
 end
 
 
