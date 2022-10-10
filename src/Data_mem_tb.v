@@ -1,3 +1,10 @@
+//Testbench for Data memory
+/*
+This module calls Data_mem.v
+Data_mem should load the file "data.mem" into memory
+this module will then emulate a CPU to dump the data contents into a waveform
+*/
+`timescale 10ms/1ms
 module Data_mem_tb();
     reg Clk_s;
     reg [31:0] Data_address_s;
@@ -23,7 +30,7 @@ module Data_mem_tb();
     end
 
     integer inc = 0;
-    parameter OFFSET = 0;
+    parameter OFFSET = 1024;
     // Testing
     initial begin
     $dumpvars(0, Data_mem_tb);
@@ -59,7 +66,7 @@ module Data_mem_tb();
         re_s <= 1;  //to read
         Data_address_s <= OFFSET; // place offset onto address
         @(posedge Clk_s); //TOCK
-        #10
+        #20
 
         $finish;
     end
