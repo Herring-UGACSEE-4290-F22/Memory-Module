@@ -1,13 +1,15 @@
 module Data_mem_tb();
-    reg Clk_s, [31:0] Data_address_s, [31:0] Data_in_s, we_s;
+    reg clk_s;
+    reg [31:0] Data_address_s, Data_in_s; 
+    reg we_s;
     wire [31:0] Data_out_s;
 
-    Data_mem Data_mem_test(Clk_s, Data_address_s, Data_in_s, we_s, data_out_s);
+    Data_mem Data_mem_test(Clk_s, Data_address_s, Data_in_s, we_s, Data_out_s);
 
     always begin
-        Clk_s <= 0;
+        clk_s <= 0;
         #10;
-        Clk_s <= 1;
+        clk_s <= 1;
         #10;
     end
 
@@ -16,17 +18,17 @@ module Data_mem_tb();
     // Testing
     initial begin
     $dumpvars(0, Data_mem_tb);
-        we <= 0;
+        we_s <= 0;
         @(posedge clk_s);
         @(posedge clk_s);
         @(posedge clk_s);
         // CASE: Write to one memory location
         @(posedge clk_s);
-        #5 we <= 0;
+        #5 we_s <= 0;
         #5 Data_address_s <= OFFSET;
         #5 Data_in_s <= 32'hFFFFFFFF;
         @(posedge clk_s);
-        #5 we <= 0;
+        #5 we_s <= 0;
         @(posedge clk_s);
         // CASE: Should not write anything
         @(posedge clk_s);
@@ -35,23 +37,23 @@ module Data_mem_tb();
         @(posedge clk_s);
         // CASE: Rewrite to that memory
         @(posedge clk_s);
-        #5 we <= 1;
+        #5 we_s <= 1;
         #5 Data_address_s <= OFFSET;
         #5 Data_in_s <= 32'h0000AAAA;
         @(posedge clk_s);
-        #5 we <= 0;
+        #5 we_s <= 0;
         @(posedge clk_s);
         @(posedge clk_s);
         // CASE: Write to a block of memory in loop
         @(posedge clk_s);
-        #5 we <= 1;
+        #5 we_s <= 1;
         #5 Data_in_s <= 32'hFFFFFFFF;
         // For loop to increment address and write to memory
         for (inc = 0; inc < 50; inc = inc + 1) begin
             # 5 Data_address_s <= OFFSET + inc;
             @(posedge clk_s);
         end
-        #5 we <= 0; // end write to block
+        #5 we_s <= 0; // end write to block
         @(posedge clk_s);
         @(posedge clk_s);
         @(posedge clk_s);

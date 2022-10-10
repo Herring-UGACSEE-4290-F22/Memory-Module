@@ -12,7 +12,7 @@ reg [31:0] data_memory [0:1023];
 
 // Load data_memory with contents of file (assuming file is in hex)
 initial begin
-    $readmemh("FILENAME.???", data_memory);
+    $readmemh("data.mem", data_memory);
 end
 
 // read/write synchronous block
