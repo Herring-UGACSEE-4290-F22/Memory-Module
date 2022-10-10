@@ -23,7 +23,7 @@ module Data_mem_tb();
     end
 
     integer inc = 0;
-    parameter OFFSET = 1024;
+    parameter OFFSET = 0;
     // Testing
     initial begin
     $dumpvars(0, Data_mem_tb);
@@ -32,21 +32,21 @@ module Data_mem_tb();
         @(posedge Clk_s);
 
         // First Tick/TOCK show enable working
-        @(negedge Clk_s);//TICK
+        @(posedge Clk_s);//TICK
         we_s <= 0;  //nothing to write
         re_s <= 0;  //nothing to read
         Data_address_s <= OFFSET; // place offset onto address
         @(posedge Clk_s); //TOCK
 
         // Read
-        @(negedge Clk_s);//TICK
+        @(posedge Clk_s);//TICK
         we_s <= 0;  
         re_s <= 1;  //to read
         Data_address_s <= OFFSET; // place offset onto address
         @(posedge Clk_s); //TOCK
 
         // Write
-        @(negedge Clk_s);//TICK
+        @(posedge Clk_s);//TICK
         we_s <= 1;  // to write
         re_s <= 0;  
         Data_address_s <= OFFSET; // place offset onto address
@@ -54,12 +54,13 @@ module Data_mem_tb();
         @(posedge Clk_s); //TOCK
 
         // Read
-        @(negedge Clk_s);//TICK
+        @(posedge Clk_s);//TICK
         we_s <= 0;  
         re_s <= 1;  //to read
         Data_address_s <= OFFSET; // place offset onto address
         @(posedge Clk_s); //TOCK
-        
+        #10
+
         $finish;
     end
 endmodule

@@ -20,10 +20,10 @@ end
 
 // read/write synchronous block
 always @(posedge clk) begin
-    if(we==1'b1) 
-        data_memory[data_address] <= data_in;
-    if(re==1'b1)
-        data_out <= data_memory[data_address];
+    if(we==1'b1) begin
+        data_memory[data_address] <= data_in; end
+    if (re==1'b1) begin
+        data_out <= data_memory[data_address]; end
 end
 
 
