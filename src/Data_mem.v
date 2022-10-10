@@ -7,8 +7,9 @@ module Data_mem(
 );
 
 
-// Data memory block (1024*4) bytes of space or just 1024 DWORDS lmao 
-reg [31:0] data_memory [0:1023];
+// Data memory block (1024*4) bytes of space or just 1024 DWORDS lmao
+parameter OFFSET = 256; 
+reg [31:0] data_memory [OFFSET:1023+OFFSET];
 
 // Load data_memory with contents of file (assuming file is in hex)
 initial begin
