@@ -1,4 +1,4 @@
-//this is a intstruction memory ROM module
+//this is a intstruction memory ROM module.
 
 integer num = 255; //this is the number of instructions to read in
 
