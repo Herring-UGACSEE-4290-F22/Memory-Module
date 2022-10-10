@@ -1,23 +1,21 @@
-//This is a module of ROM
-
-//the bit depth is 32 bits
-//total adderssable space is 32bit
-//this module implaments only INSTRUCTION_ADDRESS_SIZE amount of memory
-
-parameter INSTRUCTION_ADDRESS_SIZE = 255; //total memory allocated of the 2^32 bits available to address
-
 module In_mem(
     input clk,
+    input e,
     input [31:0] address,
-    input enable,
-    output reg [31:0] data_a
+    output reg [31:0] instr_out
 );     
-    reg [31:0] memory[0:INSTRUCTION_ADDRESS_SIZE];
+    reg [31:0] in_memory[0:255];
 
+    // Load in_memory block with values of mem file
+    initial begin
+        $readmemh("instructions.mem", in_memory);
+    end
+
+
+    // Fetch instruction at in address and put it into instr_out
     always @(posedge clk) begin
-        if (enable == 1) begin
-            data_a <= memory[address];
-        end
+        if(e)
+            instr_out <= in_memory[address];
     end
 
 endmodule
