@@ -16,6 +16,8 @@ reg e;
 reg [31:0] address;
 wire [31:0] instr_out;
 
+integer i = 0;
+integer num = 10; //number of instructions to test
 
 In_mem  UnderTest (
     clk,
@@ -38,21 +40,20 @@ $dumpvars(0,Im_mem_testbench);
 	//wait one cycle to show startup state
 	@(posedge clk);
 
-    // First Tick (TICK)
-	@(negedge clk);
-    e <= 1'b0;
+    // First Tick/TOCK show enable working
+    @(negedge clk);//TICK
+    e <= 1'b0; //enable low, output disabled
     address <= 32'h00;
-
     @(posedge clk); //TOCK
-    //nothing should be on instr_out here
-
-    @(negedge clk);
-    e <= 1'b1;
-    address <= 32'h00; //address 0
-
-    @(posedge clk); //TOCK
-    //first instruction should output
     
+    for (i = 0; i < num; i=i+1) begin
+        @(negedge clk); //TICK
+        e <= 1'b1;
+        address <= i;
+        @(posedge clk); //TOCK
+        //instruction is output on instr_out
+    end
+
 #10 $finish;
 end
 endmodule
