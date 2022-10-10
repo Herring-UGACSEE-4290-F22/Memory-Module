@@ -1,0 +1,11 @@
+iverilog -o mem.vvp Mem_Module.v
+
+iverilog -o mem.vvp In_mem.v In_mem_tb.v
+
+vvp mem.vvp -lx2 > run.log
+
+gtkwave dump.lx2 debug.gtkw
+
+iverilog -o mem.vvp Test_read2.v
+
+iverilog -o mem.vvp Data_mem.v Data_mem_tb.v
